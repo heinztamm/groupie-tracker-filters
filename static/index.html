@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groupie Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="assets/reset.css">
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Heebo:wght@600;800&family=Montserrat:ital,wght@0,200;0,400;0,600;0,700;1,600&display=swap"
+        rel="stylesheet">
+</head>
+
+
+<body>
+    <main>
+        <div class="main-content">
+            <h1>Groupie Tracker</h1>
+
+            <div class="searchbar">
+                <form action="/search" method="GET">
+                    <input type="text" name="query" placeholder="" list="suggest">
+                    <datalist id="suggest">
+                        {{range .ArtistData}}
+                        <option value="{{.FieldValue}}">{{.FieldName}}</option>
+                        {{end}}
+                    </datalist>
+                    <button type="submit" formaction="/search"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+            <form action="/">
+                <input type="submit" value="Reset">
+            </form>
+        </div>
+    </main>
+
+    <div class="result">
+        {{if .Query}}
+
+        {{range .Results}}
+        <div class="artist-card">
+            <div class="card-container">
+                <div class="front">
+                    <img src="{{.ImageURL}}" alt="{{.Name}}">
+                </div>
+                <div class="back">
+                    <h2><a href="/artist/{{.ID}}">{{.Name}}</a></h2>
+                    <div class="artist-info">
+                        <h3><a href="/artist/{{.ID}}" class="info-link">More info</a></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{end}}
+
+        {{else}}
+
+        {{range .ArtistCards}}
+        <div class="artist-card">
+            <div class="card-container">
+                <div class="front">
+                    <img src="{{.ImageURL}}" alt="{{.Name}}">
+                </div>
+                <div class="back">
+                    <h2><a href="/artist/{{.ID}}">{{.Name}}</a></h2>
+                    <div class="artist-info">
+                        <h3><a href="/artist/{{.ID}}" class="info-link">More info</a></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{end}}
+        {{end}}
+
+
+    </div>
+</body>
+
+</html>

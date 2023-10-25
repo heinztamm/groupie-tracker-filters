@@ -1,0 +1,289 @@
+html {
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background-image: url("../assets/moody.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+h1 {
+    text-transform: uppercase;
+    font-size: 3.7rem;
+    font-family: 'Heebo', sans-serif;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #BA181B;
+    line-height: 80px;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    max-height: 400px;
+    background-image: url('../assets/music.png');
+    background-size: auto 200%;
+    background-repeat: no-repeat;
+    background-position: center top;
+    height: 100vh;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.searchbar {
+    border-radius: 15px;
+    padding: 2% 3%;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
+    align-items: center;
+    width: 60%;
+    margin-top: 5%;
+    justify-content: flex-end;
+    backdrop-filter: blur(5px);
+}
+
+.searchbar form {
+    display: flex;
+    align-items: center;
+}
+
+.searchbar input[type="text"] {
+    flex: 1;
+}
+
+i {
+    color: #BA181B;
+    font-size: 1.5rem;
+}
+
+form {
+    text-align: center;
+}
+
+input[type="submit"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 25%;
+    margin-bottom: 25%;
+    padding: 12px 20px;
+    border-radius: 15px;
+    border: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: linear-gradient(180deg, #161A1D 0%, #B1A7A6 100%);
+    background-origin: border-box;
+    box-shadow: 0px 0.5px 1.5px rgba(54, 122, 246, 0.25), inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2);
+    opacity: 0.4;
+}
+
+input[type="submit"]:hover {
+    opacity: 1;
+    background: linear-gradient(180deg, #A4161A 0%, #BA181B 100%);
+    color: #F2F2F2;
+}
+
+
+table img {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.result {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: space-between;
+}
+
+.artist-card {
+    display: flex;
+    position: relative;
+    flex: 0 0 calc(20% - 10%);
+    margin: 1% 1% 2% 1%;
+    min-height: 150px;
+    min-width: 150px;
+    perspective: 1000px;
+
+}
+
+.card-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    display: flex;
+    align-items: center;
+}
+
+.artist-card:hover .card-container {
+    transform: rotateY(180deg);
+}
+
+.front,
+.back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
+}
+
+.card-container .front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.back {
+    background-color: #F5F3F4;
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6% 3%;
+    justify-content: space-between;
+}
+
+.back h2 {
+    margin-top: 20%;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.info-link {
+    text-transform: uppercase;
+    background-color: #CCCCCC;
+    border-radius: 15px;
+    font-size: 0.7rem;
+    padding: 5px 10px;
+    font-weight: 600;
+}
+
+.info-link:hover {
+    background-color: #a91416;
+    color: #F2F2F2;
+    cursor: pointer;
+}
+
+.artist-header {
+    text-align: center;
+    margin: 1% 0;
+    color: #a91416;
+
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5%;
+}
+
+.artist-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+    padding: 2% 4%;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(5px);
+}
+
+.artist-content img {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
+    margin-bottom: 4%;
+}
+
+table {
+    text-align: left;
+    width: 100%;
+}
+
+th {
+    vertical-align: top;
+    height: fit-content;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #161A1D;
+}
+
+tr {
+    margin: 7px 0;
+}
+
+td {
+    padding: 1% 0;
+}
+
+.basic-info {
+    margin: 4% 2%;
+}
+
+#concert-table th {
+    text-align: center;
+}
+
+#concerts {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    color: #660708;
+    padding-top: 5px;
+    padding-bottom: 3%;
+    border-top: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+#info {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    color: #660708;
+    padding-bottom: 3%;
+}
+
+#dates {
+    text-align: center;
+    padding-left: 5px;
+}
+
+.container h3 {
+    background-color: #B1A7A6;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    padding: 10px 12px;
+    border-radius: 15px;
+    margin-top: 6%;
+    opacity: 0.2;
+}
+
+.container h3:hover {
+    opacity: 1;
+    cursor: pointer;
+    background: linear-gradient(180deg, #A4161A 0%, #BA181B 100%);
+    color: #F2F2F2;
+}
+
+.info-cell {
+    padding-left: 5px;
+}
