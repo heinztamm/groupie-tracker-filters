@@ -2,7 +2,7 @@ package GroupieSearch
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -13,7 +13,7 @@ func FetchArtists() ([]Artist, error) {
 	}
 	defer artistResponse.Body.Close()
 
-	artistData, err := ioutil.ReadAll(artistResponse.Body)
+	artistData, err := io.ReadAll(artistResponse.Body)
 	if err != nil {
 		return nil, err
 	}

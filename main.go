@@ -2,6 +2,7 @@ package main
 
 import (
 	GroupieSearch "GroupieSearch/logic"
+	"fmt"
 	"html/template"
 	"net/http"
 )
@@ -68,6 +69,11 @@ func search(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query().Get("query")
 
 	searchResults := GroupieSearch.SearchArtistCards(query, artistCards)
+
+	if r.Method == "POST" {
+		nr_members := r.URL.Query().Get("nr_members")
+		fmt.Println(nr_members)
+	}
 
 	data := struct {
 		Query       string

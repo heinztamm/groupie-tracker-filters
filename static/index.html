@@ -34,6 +34,32 @@
                     <button type="submit" formaction="/search"><i class="fas fa-search"></i></button>
                 </form>
             </div>
+            <div id="filters-container">
+                <div id="members_nr">
+                    <form id="filters-form" action="/search" method="POST">
+                        <fieldset>
+                    <!-- <legend>Filters</legend> -->
+                    <i>Nr of Members</i>
+                    <input type="checkbox" name="nr_members" value="1" id="1">
+                    <label for="1">1</label>
+                    <input type="checkbox" name="nr_members" value="2" id="2">
+                    <label for="2">2</label>
+                    <input type="checkbox" name="nr_members" value="3" id="3">
+                    <label for="3">3</label>
+                    <input type="checkbox" name="nr_members" value="4" id="4">
+                    <label for="4">4</label>
+                    <input type="checkbox" name="nr_members" value="5" id="5">
+                    <label for="5">5</label>
+                    <input type="checkbox" name="nr_members" value="6" id="6">
+                    <label for="6">6</label>
+                    <input type="checkbox" name="nr_members" value="7" id="7">
+                    <label for="7">7</label>
+                </fieldset>
+            </form>
+        </div>
+        
+    </div>
+    <input type="submit" for="filters-form" id="apply_filters" value="Apply Filters">
             <form action="/">
                 <input type="submit" value="Reset">
             </form>
