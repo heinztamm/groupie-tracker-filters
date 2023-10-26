@@ -93,11 +93,21 @@ func CreateArtistData(artistCards []ArtistCard) []ArtistData {
 	return artistData
 }
 
-func SearchArtistCards(query string, artistCards []ArtistCard) []ArtistCard {
+func SearchArtistCards(query string, filterValues FilterValues, artistCards []ArtistCard) []ArtistCard {
 	matchingArtists := []ArtistCard{}
 	query = strings.ToLower(query)
+	isFound := true
 
 	for _, artistCard := range artistCards {
+		isFound = true
+		for _, nr := range filterValues.MembersNumbers {
+			if len(artistCard.Members) != nr {
+				isFound = false
+			}
+		}
+		if !isFound {
+			continue
+		}
 		if strings.Contains(strings.ToLower(artistCard.Name), query) {
 			matchingArtists = append(matchingArtists, artistCard)
 		} else if strings.Contains(strings.ToLower(artistCard.Album), query) {
@@ -127,7 +137,6 @@ func SearchArtistCards(query string, artistCards []ArtistCard) []ArtistCard {
 			}
 		}
 	}
-
 	return matchingArtists
 }
 

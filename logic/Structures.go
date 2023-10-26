@@ -38,3 +38,6 @@ type DatesData struct {
 		Dates []string `json:"dates"`
 	} `json:"index"`
 }
+type FilterValues struct {
+	MembersNumbers []int
+}

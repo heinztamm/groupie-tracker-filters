@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"strconv"
 )
 
 var tpl *template.Template
@@ -38,15 +39,23 @@ func home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	artistData := GroupieSearch.CreateArtistData(artistCards)
+	var filterValues GroupieSearch.FilterValues
+	for _, str := range r.Form["nr_members"] {
+		intValue, _ := strconv.Atoi(str)
+		filterValues.MembersNumbers = append(filterValues.MembersNumbers, intValue)
+	}
+	fmt.Println(filterValues)
 
 	data := struct {
-		Query       string
-		ArtistData  []GroupieSearch.ArtistData
-		ArtistCards []GroupieSearch.ArtistCard
+		Query        string
+		ArtistData   []GroupieSearch.ArtistData
+		ArtistCards  []GroupieSearch.ArtistCard
+		FilterValues GroupieSearch.FilterValues
 	}{
-		Query:       "",
-		ArtistData:  artistData,
-		ArtistCards: artistCards,
+		Query:        "",
+		ArtistData:   artistData,
+		ArtistCards:  artistCards,
+		FilterValues: filterValues,
 	}
 
 	err = tpl.ExecuteTemplate(w, "index.html", data)
@@ -64,27 +73,47 @@ func search(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var filterValues GroupieSearch.FilterValues
+
+	if r.Method == http.MethodPost {
+		err := r.ParseForm()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		for _, str := range r.Form["nr_members"] {
+			intValue, _ := strconv.Atoi(str)
+			filterValues.MembersNumbers = append(filterValues.MembersNumbers, intValue)
+		}
+		// for _, value := range selectedValues {
+		// 	intValue, _ := strconv.Atoi(value)
+		// 	for _, result := range searchResults {
+		// 		if intValue == len(result.Members) {
+		// 			fmt.Println(result.Name)
+		// 		}
+		// 	}
+		// }
+	}
+
 	artistData := GroupieSearch.CreateArtistData(artistCards)
 
 	query := r.URL.Query().Get("query")
 
-	searchResults := GroupieSearch.SearchArtistCards(query, artistCards)
-
-	if r.Method == "POST" {
-		nr_members := r.URL.Query().Get("nr_members")
-		fmt.Println(nr_members)
-	}
+	searchResults := GroupieSearch.SearchArtistCards(query, filterValues, artistCards)
 
 	data := struct {
-		Query       string
-		Results     []GroupieSearch.ArtistCard
-		ArtistData  []GroupieSearch.ArtistData
-		ArtistCards []GroupieSearch.ArtistCard
+		Query        string
+		Results      []GroupieSearch.ArtistCard
+		ArtistData   []GroupieSearch.ArtistData
+		ArtistCards  []GroupieSearch.ArtistCard
+		FilterValues GroupieSearch.FilterValues
 	}{
-		Query:       query,
-		Results:     searchResults,
-		ArtistData:  artistData,
-		ArtistCards: artistCards,
+		Query:        query,
+		Results:      searchResults,
+		ArtistData:   artistData,
+		ArtistCards:  artistCards,
+		FilterValues: filterValues,
 	}
 
 	err = tpl.ExecuteTemplate(w, "index.html", data)
