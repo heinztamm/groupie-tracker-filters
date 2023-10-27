@@ -1,6 +1,6 @@
 # 🎸 Groupie Tracker Filters 🔍
 
-[Groupie Tracker](https://github.com/01-edu/public/tree/master/subjects/groupie-tracker/search-bar "Project description") is a simple website to display info about several artists from an API. The search bar allows the user to search for a specific text input inside the website. 
+[Groupie Tracker](https://github.com/01-edu/public/tree/master/subjects/groupie-tracker/search-bar "Project description") is a simple website to display info about several artists from an API. The filter selection allows the user to display only acts' cards that meet the specifications.
 
 ## 🏃 Usage: how to run
 1) Run the command:
