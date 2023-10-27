@@ -1,4 +1,4 @@
-# 🎸 Groupie Tracker Filters 🔍
+# 🎸 Groupie Tracker Filters ![Alt text](image.png)
 
 [Groupie Tracker](https://github.com/01-edu/public/tree/master/subjects/groupie-tracker-filters "Project description") is a simple website to display info about several artists from an API. The filter selection allows the user to display only acts' cards that meet the specifications.
 
