@@ -38,11 +38,10 @@ func home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	artistData := GroupieSearch.CreateArtistData(artistCards)
-	var filterValues []GroupieSearch.FilterValues
-	// for _, str := range r.Form["nr_members"] {
-	// 	intValue, _ := strconv.Atoi(str)
-	// 	filterValues.MembersNumbers = append(filterValues.MembersNumbers, intValue)
-	// }
+	var filterValues GroupieSearch.FilterValues
+
+	checkboxNrs := GroupieSearch.MaxMemberCount(artistCards)
+
 	var searchResults []GroupieSearch.ArtistCard
 	data := struct {
 		Query             string
@@ -50,12 +49,16 @@ func home(w http.ResponseWriter, r *http.Request) {
 		ArtistCards       []GroupieSearch.ArtistCard
 		FilterValuesSlice []GroupieSearch.FilterValues
 		Results           []GroupieSearch.ArtistCard
+		CheckboxNrs       []int
+		MembersNumbers    []int
 	}{
 		Query:             "",
 		ArtistData:        artistData,
 		ArtistCards:       artistCards,
-		FilterValuesSlice: filterValues,
+		FilterValuesSlice: []GroupieSearch.FilterValues{},
 		Results:           searchResults,
+		CheckboxNrs:       checkboxNrs,
+		MembersNumbers:    filterValues.MembersNumbers,
 	}
 
 	err = tpl.ExecuteTemplate(w, "index.html", data)
@@ -102,18 +105,24 @@ func search(w http.ResponseWriter, r *http.Request) {
 
 	searchResults := GroupieSearch.SearchArtistCards(query, filterValues, artistCards)
 
+	checkboxNrs := GroupieSearch.MaxMemberCount(artistCards)
+
 	data := struct {
 		Query             string
 		Results           []GroupieSearch.ArtistCard
 		ArtistData        []GroupieSearch.ArtistData
 		ArtistCards       []GroupieSearch.ArtistCard
 		FilterValuesSlice []GroupieSearch.FilterValues
+		CheckboxNrs       []int
+		MembersNumbers    []int
 	}{
 		Query:             query,
 		Results:           searchResults,
 		ArtistData:        artistData,
 		ArtistCards:       artistCards,
 		FilterValuesSlice: []GroupieSearch.FilterValues{filterValues},
+		CheckboxNrs:       checkboxNrs,
+		MembersNumbers:    filterValues.MembersNumbers,
 	}
 
 	err = tpl.ExecuteTemplate(w, "index.html", data)
