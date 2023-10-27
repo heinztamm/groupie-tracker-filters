@@ -89,14 +89,6 @@ func search(w http.ResponseWriter, r *http.Request) {
 			intValue, _ := strconv.Atoi(str)
 			filterValues.MembersNumbers = append(filterValues.MembersNumbers, intValue)
 		}
-		// for _, value := range selectedValues {
-		// 	intValue, _ := strconv.Atoi(value)
-		// 	for _, result := range searchResults {
-		// 		if intValue == len(result.Members) {
-		// 			fmt.Println(result.Name)
-		// 		}
-		// 	}
-		// }
 	}
 
 	artistData := GroupieSearch.CreateArtistData(artistCards)
