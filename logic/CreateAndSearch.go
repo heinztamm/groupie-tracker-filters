@@ -107,7 +107,7 @@ func SearchArtistCards(query string, filterValues FilterValues, artistCards []Ar
 				isFound = true
 			}
 		}
-		if !isFound {
+		if !isFound && len(filterValues.MembersNumbers) != 0 {
 			continue
 		}
 		if strings.Contains(strings.ToLower(artistCard.Name), query) {
