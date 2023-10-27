@@ -85,6 +85,22 @@
         </div>
         {{end}}
 
+        {{else if .FilterValues}}
+        {{range .Results}}
+        <div class="artist-card">
+            <div class="card-container">
+                <div class="front">
+                    <img src="{{.ImageURL}}" alt="{{.Name}}">
+                </div>
+                <div class="back">
+                    <h2><a href="/artist/{{.ID}}">{{.Name}}</a></h2>
+                    <div class="artist-info">
+                        <h3><a href="/artist/{{.ID}}" class="info-link">More info</a></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{end}}
         {{else}}
 
         {{range .ArtistCards}}

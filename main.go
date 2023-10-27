@@ -39,23 +39,25 @@ func home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	artistData := GroupieSearch.CreateArtistData(artistCards)
-	var filterValues GroupieSearch.FilterValues
-	for _, str := range r.Form["nr_members"] {
-		intValue, _ := strconv.Atoi(str)
-		filterValues.MembersNumbers = append(filterValues.MembersNumbers, intValue)
-	}
-	fmt.Println(filterValues)
-
+	var filterValues []GroupieSearch.FilterValues
+	// for _, str := range r.Form["nr_members"] {
+	// 	intValue, _ := strconv.Atoi(str)
+	// 	filterValues.MembersNumbers = append(filterValues.MembersNumbers, intValue)
+	// }
+	fmt.Println(len(filterValues))
+	var searchResults []GroupieSearch.ArtistCard
 	data := struct {
 		Query        string
 		ArtistData   []GroupieSearch.ArtistData
 		ArtistCards  []GroupieSearch.ArtistCard
-		FilterValues GroupieSearch.FilterValues
+		FilterValues []GroupieSearch.FilterValues
+		Results      []GroupieSearch.ArtistCard
 	}{
 		Query:        "",
 		ArtistData:   artistData,
 		ArtistCards:  artistCards,
 		FilterValues: filterValues,
+		Results:      searchResults,
 	}
 
 	err = tpl.ExecuteTemplate(w, "index.html", data)
