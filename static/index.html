@@ -40,19 +40,19 @@
                         <fieldset>
                     <!-- <legend>Filters</legend> -->
                     <i>Nr of Members</i>
-                    <input type="checkbox" name="nr_members" value="1" id="1">
+                    <input type="checkbox" name="nr_members" value="1" id="1" {{range .FilterValuesSlice}} {{range .MembersNumbers}}{{if eq . 1}}checked{{end}} {{end}} {{end}}>
                     <label for="1">1</label>
-                    <input type="checkbox" name="nr_members" value="2" id="2">
+                    <input type="checkbox" name="nr_members" value="2" id="2" {{range .FilterValuesSlice}} {{range .MembersNumbers}}{{if eq . 2}}checked{{end}} {{end}} {{end}}>
                     <label for="2">2</label>
-                    <input type="checkbox" name="nr_members" value="3" id="3">
+                    <input type="checkbox" name="nr_members" value="3" id="3" {{range .FilterValuesSlice}} {{range .MembersNumbers}}{{if eq . 3}}checked{{end}} {{end}} {{end}}>
                     <label for="3">3</label>
-                    <input type="checkbox" name="nr_members" value="4" id="4">
+                    <input type="checkbox" name="nr_members" value="4" id="4" {{range .FilterValuesSlice}} {{range .MembersNumbers}}{{if eq . 4}}checked{{end}} {{end}} {{end}}>
                     <label for="4">4</label>
-                    <input type="checkbox" name="nr_members" value="5" id="5">
+                    <input type="checkbox" name="nr_members" value="5" id="5" {{range .FilterValuesSlice}} {{range .MembersNumbers}}{{if eq . 5}}checked{{end}} {{end}} {{end}}>
                     <label for="5">5</label>
-                    <input type="checkbox" name="nr_members" value="6" id="6">
+                    <input type="checkbox" name="nr_members" value="6" id="6" {{range .FilterValuesSlice}} {{range .MembersNumbers}}{{if eq . 6}}checked{{end}} {{end}} {{end}}>
                     <label for="6">6</label>
-                    <input type="checkbox" name="nr_members" value="7" id="7">
+                    <input type="checkbox" name="nr_members" value="7" id="7" {{range .FilterValuesSlice}} {{range .MembersNumbers}}{{if eq . 7}}checked{{end}} {{end}} {{end}}>
                     <label for="7">7</label>
                 </fieldset>
             </form>
@@ -85,7 +85,7 @@
         </div>
         {{end}}
 
-        {{else if .FilterValues}}
+        {{else if .FilterValuesSlice}}
         {{range .Results}}
         <div class="artist-card">
             <div class="card-container">

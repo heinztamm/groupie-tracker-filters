@@ -2,7 +2,6 @@ package main
 
 import (
 	GroupieSearch "GroupieSearch/logic"
-	"fmt"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -44,20 +43,19 @@ func home(w http.ResponseWriter, r *http.Request) {
 	// 	intValue, _ := strconv.Atoi(str)
 	// 	filterValues.MembersNumbers = append(filterValues.MembersNumbers, intValue)
 	// }
-	fmt.Println(len(filterValues))
 	var searchResults []GroupieSearch.ArtistCard
 	data := struct {
-		Query        string
-		ArtistData   []GroupieSearch.ArtistData
-		ArtistCards  []GroupieSearch.ArtistCard
-		FilterValues []GroupieSearch.FilterValues
-		Results      []GroupieSearch.ArtistCard
+		Query             string
+		ArtistData        []GroupieSearch.ArtistData
+		ArtistCards       []GroupieSearch.ArtistCard
+		FilterValuesSlice []GroupieSearch.FilterValues
+		Results           []GroupieSearch.ArtistCard
 	}{
-		Query:        "",
-		ArtistData:   artistData,
-		ArtistCards:  artistCards,
-		FilterValues: filterValues,
-		Results:      searchResults,
+		Query:             "",
+		ArtistData:        artistData,
+		ArtistCards:       artistCards,
+		FilterValuesSlice: filterValues,
+		Results:           searchResults,
 	}
 
 	err = tpl.ExecuteTemplate(w, "index.html", data)
@@ -105,17 +103,17 @@ func search(w http.ResponseWriter, r *http.Request) {
 	searchResults := GroupieSearch.SearchArtistCards(query, filterValues, artistCards)
 
 	data := struct {
-		Query        string
-		Results      []GroupieSearch.ArtistCard
-		ArtistData   []GroupieSearch.ArtistData
-		ArtistCards  []GroupieSearch.ArtistCard
-		FilterValues GroupieSearch.FilterValues
+		Query             string
+		Results           []GroupieSearch.ArtistCard
+		ArtistData        []GroupieSearch.ArtistData
+		ArtistCards       []GroupieSearch.ArtistCard
+		FilterValuesSlice []GroupieSearch.FilterValues
 	}{
-		Query:        query,
-		Results:      searchResults,
-		ArtistData:   artistData,
-		ArtistCards:  artistCards,
-		FilterValues: filterValues,
+		Query:             query,
+		Results:           searchResults,
+		ArtistData:        artistData,
+		ArtistCards:       artistCards,
+		FilterValuesSlice: []GroupieSearch.FilterValues{filterValues},
 	}
 
 	err = tpl.ExecuteTemplate(w, "index.html", data)

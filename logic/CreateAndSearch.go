@@ -2,6 +2,7 @@ package GroupieSearch
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -97,7 +98,8 @@ func SearchArtistCards(query string, filterValues FilterValues, artistCards []Ar
 	matchingArtists := []ArtistCard{}
 	query = strings.ToLower(query)
 	isFound := false
-
+	filterSlice := []FilterValues{filterValues}
+	fmt.Println(filterSlice[0].MembersNumbers)
 	for _, artistCard := range artistCards {
 		isFound = false
 		for _, nr := range filterValues.MembersNumbers {
