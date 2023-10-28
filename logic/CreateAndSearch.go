@@ -1,4 +1,4 @@
-package GroupieSearch
+package GroupieFilters
 
 import (
 	"errors"
@@ -93,20 +93,11 @@ func CreateArtistData(artistCards []ArtistCard) []ArtistData {
 	return artistData
 }
 
-func SearchArtistCards(query string, filterValues FilterValues, artistCards []ArtistCard) []ArtistCard {
+func SearchArtistCards(query string, artistCards []ArtistCard) []ArtistCard {
 	matchingArtists := []ArtistCard{}
 	query = strings.ToLower(query)
-	isFound := false
+
 	for _, artistCard := range artistCards {
-		isFound = false
-		for _, nr := range filterValues.MembersNumbers {
-			if len(artistCard.Members) == nr {
-				isFound = true
-			}
-		}
-		if !isFound && len(filterValues.MembersNumbers) != 0 {
-			continue
-		}
 		if strings.Contains(strings.ToLower(artistCard.Name), query) {
 			matchingArtists = append(matchingArtists, artistCard)
 		} else if strings.Contains(strings.ToLower(artistCard.Album), query) {
@@ -133,6 +124,35 @@ func SearchArtistCards(query string, filterValues FilterValues, artistCards []Ar
 					matchingArtists = append(matchingArtists, artistCard)
 					break
 				}
+			}
+		}
+	}
+
+	return matchingArtists
+}
+
+func FilterArtistCards(CreationDateMinStr string, CreationDateMaxStr string, FirstAlbumMinStr string, FirstAlbumMaxStr string, MembersAmountMinStr string, MembersAmountMaxStr string, SelectedLocations []string, artistCards []ArtistCard) []ArtistCard {
+	matchingArtists := []ArtistCard{}
+
+	CreationDateMin, _ := strconv.Atoi(CreationDateMinStr)
+	CreationDateMax, _ := strconv.Atoi(CreationDateMaxStr)
+	FirstAlbumMin, _ := strconv.Atoi(FirstAlbumMinStr)
+	FirstAlbumMax, _ := strconv.Atoi(FirstAlbumMaxStr)
+	MembersAmountMin, _ := strconv.Atoi(MembersAmountMinStr)
+	MembersAmountMax, _ := strconv.Atoi(MembersAmountMaxStr)
+
+	for _, artistCard := range artistCards {
+		if artistCard.Created >= CreationDateMin && artistCard.Created <= CreationDateMax && artistCard.Created >= FirstAlbumMin && artistCard.Created <= FirstAlbumMax && len(artistCard.Members) >= MembersAmountMin && len(artistCard.Members) <= MembersAmountMax {
+			if len(SelectedLocations) > 0 {
+				for _, loc := range SelectedLocations { // we get 1 location
+					for _, artistLoc := range artistCard.Locations {
+						if loc == artistLoc {
+							matchingArtists = append(matchingArtists, artistCard)
+						}
+					}
+				}
+			} else {
+				matchingArtists = append(matchingArtists, artistCard)
 			}
 		}
 	}

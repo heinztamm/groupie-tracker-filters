@@ -1,4 +1,4 @@
-package GroupieSearch
+package GroupieFilters
 
 type Artist struct {
 	ID       int      `json:"id"`
@@ -37,7 +37,4 @@ type DatesData struct {
 		ID    int      `json:"id"`
 		Dates []string `json:"dates"`
 	} `json:"index"`
-}
-type FilterValues struct {
-	MembersNumbers []int
 }

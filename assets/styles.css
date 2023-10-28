@@ -90,7 +90,6 @@ input[type="submit"]:hover {
     opacity: 1;
     background: linear-gradient(180deg, #A4161A 0%, #BA181B 100%);
     color: #F2F2F2;
-    cursor: pointer;
 }
 
 
@@ -207,7 +206,7 @@ table img {
     backdrop-filter: blur(5px);
 }
 
-.artist-content img {
+.artistimage {
     max-width: 200px;
     max-height: 200px;
     border-radius: 10px;
@@ -288,42 +287,53 @@ td {
 .info-cell {
     padding-left: 5px;
 }
-.fa-search:hover {
-    cursor: pointer;
+
+#map {
+    width: 400px;
+    height: 400px;
+    border-radius: 10px;
+    margin-top: 10px;
 }
-fieldset input {
-    margin: 0.4rem;
+
+.sliders { /* all of the sliders in a box */
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
 }
-#filters{
-    background:grey;
-    color: white;
-    align-items: left;
-    justify-content: flex-start;
-    margin: 3%;
-    padding: 2%
+
+.slider {
+    flex: 0 0 calc(50% - 10px); /* every separate slider with texts */
+    margin: 5px; 
 }
-form fieldset {
-    text-align: left;
+
+.sliders input[type="range"] { /*  only the grey slider bar, not even button */
+    margin-right: 10px;
+    background: #7e7d7d;
+    border-radius: 10px;
+    max-height: 10px;
 }
-fieldset i {
-    font-size: 100%;
+
+input[type="checkbox"] { /*  checkboxes inside the details */
+    background-color: white;
+    height: 10px;
+    width: 10px;
 }
-input[type="checkbox"] {
-    appearance: checkbox;
+
+input[type="checkbox"]:checked {  /* when activated*/
+    background-color: blue;
 }
-legend {
-    align-self: center;
+
+details {
+    position: relative;
+    background-color: grey;
 }
-#apply_filters {
-    display: inline-block;
-    flex: none;
-    margin: 0;
-    /* display: flex;
-    flex-direction: column; */
-    align-items: center;
-    /* margin-top: 25%;
-    margin-bottom: 25%; */
-    padding: 12px 20px;
-    border-radius: 15px;
-    border: none;
+
+details[open] {
+    position: absolute;
+    z-index: 1;
+    background-color: grey;
+    padding: 20px;
+    max-height: 400px;
+    overflow-y:auto;
 }
+

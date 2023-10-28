@@ -17,6 +17,7 @@
         rel="stylesheet">
 </head>
 
+
 <body>
     <main>
         <div class="main-content">
@@ -33,32 +34,43 @@
                     <button type="submit" formaction="/search"><i class="fas fa-search"></i></button>
                 </form>
             </div>
-            <div id="filters-container">
-                <div id="members_nr">
-                    <form id="filters-form" action="/search" method="POST">
-                        <fieldset>
-                    <i>Nr of Members</i>
-                    {{- $CheckboxNrs := .CheckboxNrs -}}
-                    {{- $MembersNumbers := .MembersNumbers -}}
-                    
-                    {{- range $nr := $CheckboxNrs -}}
-                        {{- $isChecked := false -}}
-                        {{- range $memberNr := $MembersNumbers -}}
-                            {{- if eq $nr $memberNr -}}
-                                {{- $isChecked = true -}}
-                                {{- break -}}
-                            {{- end -}}
-                        {{- end -}}
-                    
-                        <input type="checkbox" name="nr_members" value="{{$nr}}" id="{{$nr}}" {{if $isChecked}}checked{{end}}>
-                        <label for="{{$nr}}">{{$nr}}</label>
-                    {{- end -}}
-                </fieldset>
+            <form action="/filter" method="GET"> 
+                <div class="sliders">
+                    <div class="slider"> Creation date min
+                    <input type="range" name="CreationDateMin" min="1960" max="2015" value="1960" id="dateMinSlider">
+                    <span id="dateMinValue">1960</span>
+                    </div>
+                    <div class="slider"> Creation date max
+                    <input type="range" name="CreationDateMax" min="1960" max="2015" value="2015" id="dateMaxSlider">
+                    <span id="dateMaxValue">2015</span>
+                    </div>
+                    <div class="slider"> First album min
+                    <input type="range" name="FirstAlbumMin" min="1960" max="2020" value="1960" id="AlbumMinSlider">
+                    <span id="AlbumMinValue">1960</span>
+                    </div>
+                    <div class="slider"> First album max
+                    <input type="range" name="FirstAlbumMax" min="1970" max="2020" value="2020" id="AlbumMaxSlider">
+                    <span id="AlbumMaxValue">2020</span>
+                    </div>
+                    <div class="slider"> Members amount min
+                    <input type="range" name="MembersAmountMin" min="1" max="8" value="1" id="MembersMinSlider">
+                    <span id="MembersMinValue">1</span>
+                    </div>
+                    <div class="slider"> Members amount max
+                    <input type="range" name="MembersAmountMax" min="1" max="8" value="8" id="MembersMaxSlider">
+                    <span id="MembersMaxValue">8</span>
+                    </div>       
+                </div>
+                <details>
+                    <summary>FILTER LOCATIONS</summary>
+                    {{range .FilterLocations}}
+                    <label>
+                    <input type="checkbox" name="Location" value="{{.}}"> {{.}}
+                    </label><br>
+                    {{end}}
+                </details>
+                <button type="submit" formaction="/filter">Apply</button>
             </form>
-        </div>
-        
-    </div>
-    <input type="submit" form="filters-form" id="apply_filters" value="Apply Filters" formaction="/search">
             <form action="/">
                 <input type="submit" value="Reset">
             </form>
@@ -84,22 +96,6 @@
         </div>
         {{end}}
 
-        {{else if .FilterValuesSlice}}
-        {{range .Results}}
-        <div class="artist-card">
-            <div class="card-container">
-                <div class="front">
-                    <img src="{{.ImageURL}}" alt="{{.Name}}">
-                </div>
-                <div class="back">
-                    <h2><a href="/artist/{{.ID}}">{{.Name}}</a></h2>
-                    <div class="artist-info">
-                        <h3><a href="/artist/{{.ID}}" class="info-link">More info</a></h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{end}}
         {{else}}
 
         {{range .ArtistCards}}
@@ -122,5 +118,20 @@
 
     </div>
 </body>
+<script>
+    function setupSlider(sliderId, outputId) {
+    var slider = document.getElementById(sliderId);
+    var output = document.getElementById(outputId);
+    slider.oninput = function() {
+        output.innerHTML = this.value;
+        }
+    }
 
+    setupSlider("dateMinSlider", "dateMinValue");
+    setupSlider("dateMaxSlider", "dateMaxValue");
+    setupSlider("AlbumMinSlider", "AlbumMinValue");
+    setupSlider("AlbumMaxSlider", "AlbumMaxValue");
+    setupSlider("MembersMinSlider", "MembersMinValue");
+    setupSlider("MembersMaxSlider", "MembersMaxValue");
+</script>
 </html>

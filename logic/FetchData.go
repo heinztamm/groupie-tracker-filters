@@ -1,4 +1,4 @@
-package GroupieSearch
+package GroupieFilters
 
 import (
 	"encoding/json"

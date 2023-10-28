@@ -1,25 +1,26 @@
 package main
 
 import (
-	GroupieSearch "GroupieSearch/logic"
+	GroupieFilters "GroupieFilters/logic"
+	"fmt"
 	"html/template"
 	"net/http"
-	"strconv"
 )
 
 var tpl *template.Template
+var filterLocations []string
 
 func init() {
 	tpl = template.Must(template.ParseGlob("static/*.html"))
 }
 
 func main() {
-
+	println("SERVER RUNNING...")
 	http.Handle("/assets/", http.StripPrefix("/assets", http.FileServer(http.Dir("./assets"))))
 
 	http.HandleFunc("/", home)
 	http.HandleFunc("/search", search)
-
+	http.HandleFunc("/filter", filter)
 	http.HandleFunc("/artist/", artist)
 
 	http.ListenAndServe(":8080", nil)
@@ -31,34 +32,40 @@ func home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	artistCards, err := GroupieSearch.CreateArtistCards()
+	artistCards, err := GroupieFilters.CreateArtistCards()
 	if err != nil {
 		http.Error(w, "Failed to fetch data", http.StatusInternalServerError)
 		return
 	}
 
-	artistData := GroupieSearch.CreateArtistData(artistCards)
-	var filterValues GroupieSearch.FilterValues
+	artistData := GroupieFilters.CreateArtistData(artistCards)
 
-	checkboxNrs := GroupieSearch.MaxMemberCount(artistCards)
+	for _, x := range artistData {
+		if x.FieldName == "location" {
+			var found bool
+			for _, filterlocs := range filterLocations {
+				if x.FieldValue == filterlocs {
+					found = true
+				}
+			}
+			if found == false {
+				str := fmt.Sprintf("%v", x.FieldValue)
+				filterLocations = append(filterLocations, str)
+			}
+			found = false
+		}
+	}
 
-	var searchResults []GroupieSearch.ArtistCard
 	data := struct {
-		Query             string
-		ArtistData        []GroupieSearch.ArtistData
-		ArtistCards       []GroupieSearch.ArtistCard
-		FilterValuesSlice []GroupieSearch.FilterValues
-		Results           []GroupieSearch.ArtistCard
-		CheckboxNrs       []int
-		MembersNumbers    []int
+		Query           string
+		ArtistData      []GroupieFilters.ArtistData
+		ArtistCards     []GroupieFilters.ArtistCard
+		FilterLocations []string
 	}{
-		Query:             "",
-		ArtistData:        artistData,
-		ArtistCards:       artistCards,
-		FilterValuesSlice: []GroupieSearch.FilterValues{},
-		Results:           searchResults,
-		CheckboxNrs:       checkboxNrs,
-		MembersNumbers:    filterValues.MembersNumbers,
+		Query:           "",
+		ArtistData:      artistData,
+		ArtistCards:     artistCards,
+		FilterLocations: filterLocations,
 	}
 
 	err = tpl.ExecuteTemplate(w, "index.html", data)
@@ -70,51 +77,70 @@ func home(w http.ResponseWriter, r *http.Request) {
 }
 
 func search(w http.ResponseWriter, r *http.Request) {
-	artistCards, err := GroupieSearch.CreateArtistCards()
+	artistCards, err := GroupieFilters.CreateArtistCards()
 	if err != nil {
 		http.Error(w, "Failed to fetch data", http.StatusInternalServerError)
 		return
 	}
 
-	var filterValues GroupieSearch.FilterValues
-
-	if r.Method == http.MethodPost {
-		err := r.ParseForm()
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
-
-		for _, str := range r.Form["nr_members"] {
-			intValue, _ := strconv.Atoi(str)
-			filterValues.MembersNumbers = append(filterValues.MembersNumbers, intValue)
-		}
-	}
-
-	artistData := GroupieSearch.CreateArtistData(artistCards)
+	artistData := GroupieFilters.CreateArtistData(artistCards)
 
 	query := r.URL.Query().Get("query")
 
-	searchResults := GroupieSearch.SearchArtistCards(query, filterValues, artistCards)
-
-	checkboxNrs := GroupieSearch.MaxMemberCount(artistCards)
+	searchResults := GroupieFilters.SearchArtistCards(query, artistCards)
 
 	data := struct {
-		Query             string
-		Results           []GroupieSearch.ArtistCard
-		ArtistData        []GroupieSearch.ArtistData
-		ArtistCards       []GroupieSearch.ArtistCard
-		FilterValuesSlice []GroupieSearch.FilterValues
-		CheckboxNrs       []int
-		MembersNumbers    []int
+		Query           string
+		Results         []GroupieFilters.ArtistCard
+		ArtistData      []GroupieFilters.ArtistData
+		ArtistCards     []GroupieFilters.ArtistCard
+		FilterLocations []string
 	}{
-		Query:             query,
-		Results:           searchResults,
-		ArtistData:        artistData,
-		ArtistCards:       artistCards,
-		FilterValuesSlice: []GroupieSearch.FilterValues{filterValues},
-		CheckboxNrs:       checkboxNrs,
-		MembersNumbers:    filterValues.MembersNumbers,
+		Query:           query,
+		Results:         searchResults,
+		ArtistData:      artistData,
+		ArtistCards:     artistCards,
+		FilterLocations: filterLocations,
+	}
+
+	err = tpl.ExecuteTemplate(w, "index.html", data)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+func filter(w http.ResponseWriter, r *http.Request) {
+	artistCards, err := GroupieFilters.CreateArtistCards()
+	if err != nil {
+		http.Error(w, "Failed to fetch data", http.StatusInternalServerError)
+		return
+	}
+
+	artistData := GroupieFilters.CreateArtistData(artistCards)
+
+	CreationDateMin := r.URL.Query().Get("CreationDateMin")
+	CreationDateMax := r.URL.Query().Get("CreationDateMax")
+	FirstAlbumMin := r.URL.Query().Get("FirstAlbumMin")
+	FirstAlbumMax := r.URL.Query().Get("FirstAlbumMax")
+	MembersAmountMin := r.URL.Query().Get("MembersAmountMin")
+	MembersAmountMax := r.URL.Query().Get("MembersAmountMax")
+	SelectedLocations := r.URL.Query()["Location"]
+
+	filterResults := GroupieFilters.FilterArtistCards(CreationDateMin, CreationDateMax, FirstAlbumMin, FirstAlbumMax, MembersAmountMin, MembersAmountMax, SelectedLocations, artistCards)
+
+	data := struct {
+		Query           string
+		Results         []GroupieFilters.ArtistCard
+		ArtistData      []GroupieFilters.ArtistData
+		ArtistCards     []GroupieFilters.ArtistCard
+		FilterLocations []string
+	}{
+		Query:           "true",
+		Results:         filterResults,
+		ArtistData:      artistData,
+		ArtistCards:     artistCards,
+		FilterLocations: filterLocations,
 	}
 
 	err = tpl.ExecuteTemplate(w, "index.html", data)
@@ -127,13 +153,13 @@ func search(w http.ResponseWriter, r *http.Request) {
 func artist(w http.ResponseWriter, r *http.Request) {
 	artistID := r.URL.Path[len("/artist/"):]
 
-	artistCards, err := GroupieSearch.CreateArtistCards()
+	artistCards, err := GroupieFilters.CreateArtistCards()
 	if err != nil {
 		http.Error(w, "Failed to fetch data", http.StatusInternalServerError)
 		return
 	}
 
-	artistData, err := GroupieSearch.GetArtistDataByID(artistID, artistCards)
+	artistData, err := GroupieFilters.GetArtistDataByID(artistID, artistCards)
 	if err != nil {
 		http.Error(w, "Page not found", http.StatusNotFound)
 		return
