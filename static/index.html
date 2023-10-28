@@ -16,11 +16,12 @@
         href="https://fonts.googleapis.com/css2?family=Heebo:wght@600;800&family=Montserrat:ital,wght@0,200;0,400;0,600;0,700;1,600&display=swap"
         rel="stylesheet">
 </head>
-
 <body>
     <main>
         <div class="main-content">
-            <h1>Groupie Tracker</h1>
+            <div id="title-container">
+                <h1>Groupie Tracker</h1>
+            </div>
 
             <div class="searchbar">
                 <form action="/search" method="GET">
@@ -49,14 +50,16 @@
                                 {{- break -}}
                             {{- end -}}
                         {{- end -}}
-                    
                         <input type="checkbox" name="nr_members" value="{{$nr}}" id="{{$nr}}" {{if $isChecked}}checked{{end}}>
                         <label for="{{$nr}}">{{$nr}}</label>
                     {{- end -}}
                 </fieldset>
             </form>
+            <i> |</i>
+            <div class="slider">
+                <input type="range" min="1950" max="2015" value="1950" class="slider" id="minYearSlider">
+            </div>
         </div>
-        
     </div>
     <input type="submit" form="filters-form" id="apply_filters" value="Apply Filters" formaction="/search">
             <form action="/">
@@ -64,27 +67,9 @@
             </form>
         </div>
     </main>
-
     <div class="result">
-        {{if .Query}}
+        {{if or .Query .FilterValuesSlice}}
 
-        {{range .Results}}
-        <div class="artist-card">
-            <div class="card-container">
-                <div class="front">
-                    <img src="{{.ImageURL}}" alt="{{.Name}}">
-                </div>
-                <div class="back">
-                    <h2><a href="/artist/{{.ID}}">{{.Name}}</a></h2>
-                    <div class="artist-info">
-                        <h3><a href="/artist/{{.ID}}" class="info-link">More info</a></h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{end}}
-
-        {{else if .FilterValuesSlice}}
         {{range .Results}}
         <div class="artist-card">
             <div class="card-container">

@@ -17,9 +17,10 @@ h1 {
     font-weight: 800;
     letter-spacing: 2px;
     color: #BA181B;
-    line-height: 80px;
 }
-
+#title-container {
+    text-align: center;
+}
 main {
     display: flex;
     flex-direction: column;
@@ -294,13 +295,27 @@ td {
 fieldset input {
     margin: 0.4rem;
 }
-#filters{
+#filters-container{
     background:grey;
+    border-radius: 7px;
     color: white;
     align-items: left;
     justify-content: flex-start;
     margin: 3%;
-    padding: 2%
+    padding: 2%;
+    display: inline-block;
+    flex:none;
+    flex-direction: unset;
+    justify-content:unset;
+}
+#members_nr {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    justify-content: center; /* Center horizontally */
+}
+#members_nr i {
+    display: inline;
+    margin-left: 8px;
 }
 form fieldset {
     text-align: left;
@@ -327,3 +342,29 @@ legend {
     border-radius: 15px;
     border: none;
 }
+.slider {
+    margin-left: 8px;
+    align-content: center;
+    justify-content: center;
+}
+#minYearSlider {
+    background: #BA181B;
+    border-radius: 20px;
+}
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+#minYearSlider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 15px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #575f5c; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+    border-radius: 20px;
+  }
+  
+  #minYearSlider::-moz-range-thumb {
+    width: 15px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #575f5c; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+  }

@@ -66,7 +66,6 @@ func home(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
 }
 
 func search(w http.ResponseWriter, r *http.Request) {
