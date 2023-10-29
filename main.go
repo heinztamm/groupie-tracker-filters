@@ -88,6 +88,10 @@ func search(w http.ResponseWriter, r *http.Request) {
 			intValue, _ := strconv.Atoi(str)
 			filterValues.MembersNumbers = append(filterValues.MembersNumbers, intValue)
 		}
+		filterValues.MinStartYear, _ = strconv.Atoi(r.FormValue("minStart"))
+		filterValues.MaxStartYear, _ = strconv.Atoi(r.FormValue("maxStart"))
+		filterValues.MinFirstAlbumYear, _ = strconv.Atoi(r.FormValue("minFirst"))
+		filterValues.MaxFirstAlbumYear, _ = strconv.Atoi(r.FormValue("maxFirst"))
 	}
 
 	artistData := GroupieSearch.CreateArtistData(artistCards)

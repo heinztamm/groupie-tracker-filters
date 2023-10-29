@@ -98,11 +98,18 @@ func SearchArtistCards(query string, filterValues FilterValues, artistCards []Ar
 	query = strings.ToLower(query)
 	isFound := false
 	for _, artistCard := range artistCards {
+		intFirstAlbumYear, _ := strconv.Atoi(artistCard.Album[6:])
 		isFound = false
 		for _, nr := range filterValues.MembersNumbers {
 			if len(artistCard.Members) == nr {
 				isFound = true
 			}
+		}
+		if !(artistCard.Created >= filterValues.MinStartYear && artistCard.Created <= filterValues.MaxStartYear) {
+			continue
+		}
+		if !(intFirstAlbumYear >= filterValues.MinFirstAlbumYear && intFirstAlbumYear <= filterValues.MaxFirstAlbumYear) {
+			continue
 		}
 		if !isFound && len(filterValues.MembersNumbers) != 0 {
 			continue

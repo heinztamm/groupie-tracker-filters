@@ -39,5 +39,9 @@ type DatesData struct {
 	} `json:"index"`
 }
 type FilterValues struct {
-	MembersNumbers []int
+	MembersNumbers    []int
+	MinStartYear      int
+	MaxStartYear      int
+	MinFirstAlbumYear int
+	MaxFirstAlbumYear int
 }

@@ -18,6 +18,7 @@ h1 {
     letter-spacing: 2px;
     color: #BA181B;
 }
+
 #title-container {
     text-align: center;
 }
@@ -278,7 +279,6 @@ td {
     margin-top: 6%;
     opacity: 0.2;
 }
-
 .container h3:hover {
     opacity: 1;
     cursor: pointer;
@@ -300,13 +300,11 @@ fieldset input {
     border-radius: 7px;
     color: white;
     align-items: left;
-    justify-content: flex-start;
-    margin: 3%;
+    justify-content: left;
+    /* margin: 3%;
     padding: 2%;
-    display: inline-block;
-    flex:none;
-    flex-direction: unset;
-    justify-content:unset;
+    */
+    display: block; 
 }
 #members_nr {
     display: flex;
@@ -320,8 +318,9 @@ fieldset input {
 form fieldset {
     text-align: left;
 }
-fieldset i {
+#filters-container i {
     font-size: 100%;
+    color: whitesmoke;
 }
 input[type="checkbox"] {
     appearance: checkbox;
@@ -330,8 +329,8 @@ legend {
     align-self: center;
 }
 #apply_filters {
-    display: inline-block;
-    flex: none;
+    /* display: inline-block; */
+    /* flex: none; */
     margin: 0;
     /* display: flex;
     flex-direction: column; */
@@ -344,25 +343,32 @@ legend {
 }
 .slider {
     margin-left: 8px;
-    align-content: center;
-    justify-content: center;
+    display: inline-block;
 }
-#minYearSlider {
+.slider i {
+    display: inline;
+}
+#startyearsliders {
+    display: block;
+    justify-content: left;
+}
+input[type="range"] {
     background: #BA181B;
     border-radius: 20px;
+    display: block;
 }
 /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
-#minYearSlider::-webkit-slider-thumb {
+input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none; /* Override default look */
     appearance: none;
     width: 15px; /* Set a specific slider handle width */
-    height: 25px; /* Slider handle height */
+    height: 15px; /* Slider handle height */
     background: #575f5c; /* Green background */
     cursor: pointer; /* Cursor on hover */
     border-radius: 20px;
   }
   
-  #minYearSlider::-moz-range-thumb {
+input[type="range"]::-moz-range-thumb {
     width: 15px; /* Set a specific slider handle width */
     height: 25px; /* Slider handle height */
     background: #575f5c; /* Green background */
