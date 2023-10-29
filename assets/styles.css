@@ -310,6 +310,7 @@ fieldset input {
     display: flex;
     align-items: center; /* Align items vertically */
     justify-content: center; /* Center horizontally */
+    margin-right: 8px;
 }
 #members_nr i {
     display: inline;
