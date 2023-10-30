@@ -4,6 +4,7 @@ import (
 	GroupieSearch "GroupieSearch/logic"
 	"html/template"
 	"net/http"
+	"slices"
 	"strconv"
 )
 
@@ -38,6 +39,17 @@ func home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	artistData := GroupieSearch.CreateArtistData(artistCards)
+
+	allLocations := []string{}
+
+	for _, act := range artistCards {
+		for _, location := range act.Locations {
+			if !(slices.Contains(allLocations, location)) {
+				allLocations = append(allLocations, location)
+			}
+		}
+	}
+
 	var filterValues GroupieSearch.FilterValues
 
 	checkboxNrs := GroupieSearch.MaxMemberCount(artistCards)
@@ -51,6 +63,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 		Results           []GroupieSearch.ArtistCard
 		CheckboxNrs       []int
 		MembersNumbers    []int
+		LocationSlice     []string
 	}{
 		Query:             "",
 		ArtistData:        artistData,
@@ -59,6 +72,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 		Results:           searchResults,
 		CheckboxNrs:       checkboxNrs,
 		MembersNumbers:    filterValues.MembersNumbers,
+		LocationSlice:     allLocations,
 	}
 
 	err = tpl.ExecuteTemplate(w, "index.html", data)
@@ -88,6 +102,10 @@ func search(w http.ResponseWriter, r *http.Request) {
 			intValue, _ := strconv.Atoi(str)
 			filterValues.MembersNumbers = append(filterValues.MembersNumbers, intValue)
 		}
+		for _, location := range r.Form["location"] {
+			filterValues.LocationSlice = append(filterValues.LocationSlice, location)
+		}
+
 		filterValues.MinStartYear, _ = strconv.Atoi(r.FormValue("minStart"))
 		filterValues.MaxStartYear, _ = strconv.Atoi(r.FormValue("maxStart"))
 		filterValues.MinFirstAlbumYear, _ = strconv.Atoi(r.FormValue("minFirst"))
@@ -110,6 +128,7 @@ func search(w http.ResponseWriter, r *http.Request) {
 		FilterValuesSlice []GroupieSearch.FilterValues
 		CheckboxNrs       []int
 		MembersNumbers    []int
+		LocationSlice     []string
 	}{
 		Query:             query,
 		Results:           searchResults,
@@ -118,6 +137,7 @@ func search(w http.ResponseWriter, r *http.Request) {
 		FilterValuesSlice: []GroupieSearch.FilterValues{filterValues},
 		CheckboxNrs:       checkboxNrs,
 		MembersNumbers:    filterValues.MembersNumbers,
+		LocationSlice:     filterValues.LocationSlice,
 	}
 
 	err = tpl.ExecuteTemplate(w, "index.html", data)

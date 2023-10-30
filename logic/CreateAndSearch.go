@@ -2,6 +2,7 @@ package GroupieSearch
 
 import (
 	"errors"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -96,13 +97,20 @@ func CreateArtistData(artistCards []ArtistCard) []ArtistData {
 func SearchArtistCards(query string, filterValues FilterValues, artistCards []ArtistCard) []ArtistCard {
 	matchingArtists := []ArtistCard{}
 	query = strings.ToLower(query)
-	isFound := false
+	MembersNrMatch := false
+	LocationMatch := false
 	for _, artistCard := range artistCards {
 		intFirstAlbumYear, _ := strconv.Atoi(artistCard.Album[6:])
-		isFound = false
+		MembersNrMatch = false
+		LocationMatch = false
 		for _, nr := range filterValues.MembersNumbers {
 			if len(artistCard.Members) == nr {
-				isFound = true
+				MembersNrMatch = true
+			}
+		}
+		for _, location := range filterValues.LocationSlice {
+			if slices.Contains(artistCard.Locations, location) {
+				LocationMatch = true
 			}
 		}
 		if !(artistCard.Created >= filterValues.MinStartYear && artistCard.Created <= filterValues.MaxStartYear) {
@@ -111,7 +119,10 @@ func SearchArtistCards(query string, filterValues FilterValues, artistCards []Ar
 		if !(intFirstAlbumYear >= filterValues.MinFirstAlbumYear && intFirstAlbumYear <= filterValues.MaxFirstAlbumYear) {
 			continue
 		}
-		if !isFound && len(filterValues.MembersNumbers) != 0 {
+		if !MembersNrMatch && len(filterValues.MembersNumbers) != 0 {
+			continue
+		}
+		if !LocationMatch && len(filterValues.LocationSlice) != 0 {
 			continue
 		}
 		if strings.Contains(strings.ToLower(artistCard.Name), query) {

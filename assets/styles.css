@@ -23,16 +23,15 @@ h1 {
     text-align: center;
 }
 main {
-    display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
-    max-height: 400px;
     background-image: url('../assets/music.png');
     background-size: auto 200%;
     background-repeat: no-repeat;
     background-position: center top;
-    height: 100vh;
+    background-size: cover; /* or set it to your preferred size value */
+    background-repeat: no-repeat;
 }
 
 .main-content {
@@ -301,9 +300,10 @@ fieldset input {
     color: white;
     align-items: left;
     justify-content: left;
-    /* margin: 3%;
-    padding: 2%;
+    /* 
     */
+    margin: 3%;
+    padding: 2%;
     display: block; 
 }
 #members_nr {
@@ -374,4 +374,16 @@ input[type="range"]::-moz-range-thumb {
     height: 25px; /* Slider handle height */
     background: #575f5c; /* Green background */
     cursor: pointer; /* Cursor on hover */
+  }
+  #locationFilter {
+    margin-top: 10px;
+    margin-bottom: 4px;
+  }
+  .hidden {
+    display: none;
+}
+  #checkboxList {
+    display: none;
+    grid-template-columns: repeat(3, 1fr); /* Adjust the number of columns as needed */
+    grid-gap: 10px;
   }
