@@ -1,5 +1,9 @@
 package GroupieSearch
 
+import (
+	"strconv"
+)
+
 func MaxMemberCount(artistCards []ArtistCard) []int {
 	maxNr := 1
 	checkboxNrs := []int{}
@@ -31,4 +35,25 @@ func GetMaxStartYear(artistCards []ArtistCard) int {
 		}
 	}
 	return maxYear
+}
+
+func GetMinFirstAlbumYear(artistCards []ArtistCard) int {
+	minFirst, _ := strconv.Atoi(artistCards[0].Album[6:])
+	for _, card := range artistCards {
+		intYear, _ := strconv.Atoi(card.Album[6:])
+		if intYear < minFirst {
+			minFirst = intYear
+		}
+	}
+	return minFirst
+}
+func GetMaxFirstAlbumYear(artistCards []ArtistCard) int {
+	maxFirst, _ := strconv.Atoi(artistCards[0].Album[6:])
+	for _, card := range artistCards {
+		intYear, _ := strconv.Atoi(card.Album[6:])
+		if intYear > maxFirst {
+			maxFirst = intYear
+		}
+	}
+	return maxFirst
 }

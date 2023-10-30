@@ -99,6 +99,19 @@ func SearchArtistCards(query string, filterValues FilterValues, artistCards []Ar
 	query = strings.ToLower(query)
 	MembersNrMatch := false
 	LocationMatch := false
+	if filterValues.MinStartYear == 0 {
+		filterValues.MinStartYear = GetMinStartYear(artistCards)
+	}
+	if filterValues.MaxStartYear == 0 {
+		filterValues.MaxStartYear = GetMaxStartYear(artistCards)
+	}
+	if filterValues.MinFirstAlbumYear == 0 {
+		filterValues.MinFirstAlbumYear = GetMinFirstAlbumYear(artistCards)
+	}
+	if filterValues.MaxFirstAlbumYear == 0 {
+		filterValues.MaxFirstAlbumYear = GetMaxFirstAlbumYear(artistCards)
+	}
+
 	for _, artistCard := range artistCards {
 		intFirstAlbumYear, _ := strconv.Atoi(artistCard.Album[6:])
 		MembersNrMatch = false
@@ -113,12 +126,14 @@ func SearchArtistCards(query string, filterValues FilterValues, artistCards []Ar
 				LocationMatch = true
 			}
 		}
+
 		if !(artistCard.Created >= filterValues.MinStartYear && artistCard.Created <= filterValues.MaxStartYear) {
 			continue
 		}
 		if !(intFirstAlbumYear >= filterValues.MinFirstAlbumYear && intFirstAlbumYear <= filterValues.MaxFirstAlbumYear) {
 			continue
 		}
+
 		if !MembersNrMatch && len(filterValues.MembersNumbers) != 0 {
 			continue
 		}
