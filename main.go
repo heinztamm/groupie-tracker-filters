@@ -49,7 +49,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
-
+	slices.Sort(allLocations)
 	var filterValues GroupieSearch.FilterValues
 
 	checkboxNrs := GroupieSearch.MaxMemberCount(artistCards)
@@ -105,7 +105,7 @@ func search(w http.ResponseWriter, r *http.Request) {
 		for _, location := range r.Form["location"] {
 			filterValues.LocationSlice = append(filterValues.LocationSlice, location)
 		}
-
+		slices.Sort(filterValues.LocationSlice)
 		filterValues.MinStartYear, _ = strconv.Atoi(r.FormValue("minStart"))
 		filterValues.MaxStartYear, _ = strconv.Atoi(r.FormValue("maxStart"))
 		filterValues.MinFirstAlbumYear, _ = strconv.Atoi(r.FormValue("minFirst"))
