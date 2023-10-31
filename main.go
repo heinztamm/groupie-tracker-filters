@@ -66,6 +66,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 		CheckboxNrs       []int
 		MembersNumbers    []int
 		LocationSlice     []string
+		AllLocations      []string
 	}{
 		Query:             "",
 		ArtistData:        artistData,
@@ -75,6 +76,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 		CheckboxNrs:       checkboxNrs,
 		MembersNumbers:    filterValues.MembersNumbers,
 		LocationSlice:     allLocations,
+		AllLocations:      allLocations,
 	}
 
 	err = tpl.ExecuteTemplate(w, "index.html", data)
@@ -122,6 +124,17 @@ func search(w http.ResponseWriter, r *http.Request) {
 
 	checkboxNrs := GroupieSearch.MaxMemberCount(artistCards)
 
+	allLocations := []string{}
+
+	for _, act := range artistCards {
+		for _, location := range act.Locations {
+			if !(slices.Contains(allLocations, location)) {
+				allLocations = append(allLocations, location)
+			}
+		}
+	}
+
+	sort.Strings(allLocations)
 	data := struct {
 		Query             string
 		Results           []GroupieSearch.ArtistCard
@@ -131,6 +144,7 @@ func search(w http.ResponseWriter, r *http.Request) {
 		CheckboxNrs       []int
 		MembersNumbers    []int
 		LocationSlice     []string
+		AllLocations      []string
 	}{
 		Query:             query,
 		Results:           searchResults,
@@ -140,6 +154,7 @@ func search(w http.ResponseWriter, r *http.Request) {
 		CheckboxNrs:       checkboxNrs,
 		MembersNumbers:    filterValues.MembersNumbers,
 		LocationSlice:     filterValues.LocationSlice,
+		AllLocations:      allLocations,
 	}
 
 	err = tpl.ExecuteTemplate(w, "index.html", data)
