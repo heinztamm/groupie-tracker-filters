@@ -63,6 +63,12 @@ func CreateArtistCards() ([]ArtistCard, error) {
 		artistCards = append(artistCards, artistCard)
 	}
 
+	for i := range artistCards {
+		for j := range artistCards[i].Locations {
+			artistCards[i].Locations[j] = FormatLocation(artistCards[i].Locations[j])
+		}
+	}
+
 	return artistCards, nil
 }
 
@@ -185,4 +191,21 @@ func GetArtistDataByID(artistID string, artistCards []ArtistCard) (ArtistCard, e
 	}
 
 	return ArtistCard{}, errors.New("Artist not found")
+}
+
+// function to clean up the formatting of locations
+func FormatLocation(input string) string {
+	// separate city from country
+	parts := strings.Split(input, "-")
+
+	for i, part := range parts {
+		// split two-word places
+		subParts := strings.Split(part, "_")
+		for j, subPart := range subParts {
+			// capitalize words
+			subParts[j] = strings.Title(subPart)
+		}
+		parts[i] = strings.Join(subParts, " ")
+	}
+	return strings.Join(parts, ", ")
 }

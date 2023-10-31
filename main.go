@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"net/http"
 	"slices"
+	"sort"
 	"strconv"
 )
 
@@ -49,7 +50,8 @@ func home(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
-	slices.Sort(allLocations)
+
+	sort.Strings(allLocations)
 	var filterValues GroupieSearch.FilterValues
 
 	checkboxNrs := GroupieSearch.MaxMemberCount(artistCards)
