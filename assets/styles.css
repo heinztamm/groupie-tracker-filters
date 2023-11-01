@@ -325,19 +325,14 @@ form fieldset {
 }
 input[type="checkbox"] {
     appearance: checkbox;
+    cursor:pointer
 }
 legend {
     align-self: center;
 }
 #apply_filters {
-    /* display: inline-block; */
-    /* flex: none; */
     margin: 0;
-    /* display: flex;
-    flex-direction: column; */
     align-items: center;
-    /* margin-top: 25%;
-    margin-bottom: 25%; */
     padding: 12px 20px;
     border-radius: 15px;
     border: none;
@@ -386,4 +381,11 @@ input[type="range"]::-moz-range-thumb {
     display: none;
     grid-template-columns: repeat(3, 1fr); /* Adjust the number of columns as needed */
     grid-gap: 10px;
+  }
+  #locationSelect {
+    background-color: #BA181B;
+    cursor: pointer;
+    min-height: 20px;
+    border-radius: 8px;
+    padding: 4px;
   }

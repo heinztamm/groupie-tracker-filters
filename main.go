@@ -13,11 +13,10 @@ var tpl *template.Template
 
 func init() {
 	tpl = template.Must(template.ParseGlob("static/*.html"))
+	http.Handle("/assets/", http.StripPrefix("/assets", http.FileServer(http.Dir("./assets"))))
 }
 
 func main() {
-
-	http.Handle("/assets/", http.StripPrefix("/assets", http.FileServer(http.Dir("./assets"))))
 
 	http.HandleFunc("/", home)
 	http.HandleFunc("/search", search)
