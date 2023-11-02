@@ -21,7 +21,7 @@
     <main>
         <div class="main-content">
             <div id="title-container">
-                <h1>Groupie Tracker</h1>
+                <h1 id="groupie">Groupie Tracker</h1>
             </div>
 
             <div class="searchbar">
@@ -35,63 +35,93 @@
                     <button type="submit" formaction="/search"><i class="fas fa-search"></i></button>
                 </form>
             </div>
-            <div id="filters-container">
-                <form id="filters-form" action="/search" method="POST">
-                    <div id="members_nr">
-                        <fieldset>
-                            <i>Nr of Members</i>
-                            {{- $CheckboxNrs := .CheckboxNrs -}}
-                            {{- $MembersNumbers := .MembersNumbers -}}
 
-                            {{- range $nr := $CheckboxNrs -}}
-                            {{- $isChecked := false -}}
-                            {{- range $memberNr := $MembersNumbers -}}
-                            {{- if eq $nr $memberNr -}}
-                            {{- $isChecked = true -}}
-                            {{- break -}}
-                            {{- end -}}
-                            {{- end -}}
-                            <input type="checkbox" name="nr_members" value="{{$nr}}" id="{{$nr}}" {{if
-                                $isChecked}}checked{{end}}>
-                            <label for="{{$nr}}">{{$nr}}</label>
-                            {{- end -}}
-                        </fieldset>
-                    </div>
-                    <div id="startyearsliders">
-                        <div class="slider">
-                            <i>Min. Starting Year</i>
-                            <input type="range" min="1958" max="2015" value="1958" name="minStart" id="minYearSlider">
-                            <i id="minStartYear">1958</i>
+            <div class="wrap-collabsible">
+                <input id="collapsible3" class="toggle" type="checkbox">
+                <label for="collapsible3" class="lbl-toggle" tabindex="0">Filters</label>
+                <div class="collapsible-content">
+                    <div class="content-inner">
+
+                        <div id="filters-container">
+                            <form id="filters-form" action="/search" method="POST">
+
+
+                                <div id="allSliders">
+
+                                    <div class="sliders">
+                                        <h3>Creation Date</h3>
+                                        <div class="slider">
+                                            <i class="black-text">from </i>
+                                            <i id="minStartYear">1958</i>
+                                            <input type="range" min="1958" max="2015" value="1958" name="minStart"
+                                                id="minYearSlider">
+                                        </div>
+                                        <div class="slider">
+                                            <i class="black-text">to </i>
+                                            <i id="maxStartYear">2015</i>
+                                            <input type="range" min="1958" max="2015" value="2015" name="maxStart"
+                                                id="maxYearSlider">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="sliders">
+                                        <h3>First Album</h3>
+                                        <div class="slider">
+                                            <i class="black-text">from </i>
+                                            <i id="minAlbumYear">1958</i>
+                                            <input type="range" min="1958" max="2015" value="1958" name="minFirst"
+                                                id="minAlbumSlider">
+                                        </div>
+                                        <div class="slider">
+                                            <i class="black-text">to </i>
+                                            <i id="maxAlbumYear">2015</i>
+                                            <input type="range" min="1958" max="2015" value="2015" name="maxFirst"
+                                                id="maxAlbumSlider">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="members_nr">
+                                    <fieldset>
+                                        <i class="black-text">Number of members:</i>
+                                        {{- $CheckboxNrs := .CheckboxNrs -}}
+                                        {{- $MembersNumbers := .MembersNumbers -}}
+
+                                        {{- range $nr := $CheckboxNrs -}}
+                                        {{- $isChecked := false -}}
+                                        {{- range $memberNr := $MembersNumbers -}}
+                                        {{- if eq $nr $memberNr -}}
+                                        {{- $isChecked = true -}}
+                                        {{- break -}}
+                                        {{- end -}}
+                                        {{- end -}}
+                                        <input type="checkbox" name="nr_members" value="{{$nr}}" id="{{$nr}}" {{if
+                                            $isChecked}}checked{{end}}>
+                                        <label for="{{$nr}}">{{$nr}}</label>
+                                        {{- end -}}
+                                    </fieldset>
+                                </div>
+
+                                <div id="locationFilter">
+                                    <select id="locationSelect" name="location">
+                                        <option value="" selected disabled>Location</option>
+                                        {{range .LocationSlice}}
+                                        <option value="{{.}}">{{.}}</option>
+                                        {{end}}
+                                    </select>
+                                </div>
+                            </form>
+
+                            <div id="apply_button">
+                                <input type="submit" form="filters-form" id="apply_filters" value="Apply Filters"
+                                    formaction="/search">
+                            </div>
                         </div>
-                        <div class="slider">
-                            <i>Max. Starting Year</i>
-                            <input type="range" min="1958" max="2015" value="2015" name="maxStart" id="maxYearSlider">
-                            <i id="maxStartYear">2015</i>
-                        </div>
                     </div>
-                    <div id="firstAlbumYearSliders">
-                        <div class="slider">
-                            <i>Min. First Album Year</i>
-                            <input type="range" min="1958" max="2018" value="1958" name="minFirst" id="minAlbumSlider">
-                            <i id="minAlbumYear">1958</i>
-                        </div>
-                        <div class="slider">
-                            <i>Max. First Album Year</i>
-                            <input type="range" min="1958" max="2018" value="2018" name="maxFirst" id="maxAlbumSlider">
-                            <i id="maxAlbumYear">2018</i>
-                        </div>
-                    </div>
-                    <div id="locationFilter">
-                        <select id="locationSelect" name="location">
-                            <option value="" selected disabled>Select a location</option>
-                            {{range .AllLocations}}
-                            <option value="{{.}}">{{.}}</option>
-                            {{end}}
-                        </select>
-                    </div>
-                </form>
+                </div>
             </div>
-            <input type="submit" form="filters-form" id="apply_filters" value="Apply Filters" formaction="/search">
+
             <form action="/">
                 <input type="submit" value="Reset">
             </form>
