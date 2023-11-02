@@ -384,12 +384,23 @@ input[type="checkbox"]:checked+label {
 .hidden {
     display: none;
 }
-
+#locationSelect option {
+    font-size: unset;
+}
 #locationSelect {
     border-radius: 5px;
     padding: 2% 3%;
 }
-
+#locationSelect {
+    color: black;
+    font-size: 1.3em;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 0 3px;
+}
+#locationSelect:hover {
+    color: white;
+}
 
 #allSliders {
     display: flex;

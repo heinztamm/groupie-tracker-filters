@@ -91,10 +91,10 @@
                                         {{- range $nr := $CheckboxNrs -}}
                                         {{- $isChecked := false -}}
                                         {{- range $memberNr := $MembersNumbers -}}
-                                        {{- if eq $nr $memberNr -}}
-                                        {{- $isChecked = true -}}
-                                        {{- break -}}
-                                        {{- end -}}
+                                            {{- if eq $nr $memberNr -}}
+                                                {{- $isChecked = true -}}
+                                                {{- break -}}
+                                            {{- end -}}
                                         {{- end -}}
                                         <input type="checkbox" name="nr_members" value="{{$nr}}" id="{{$nr}}" {{if
                                             $isChecked}}checked{{end}}>
@@ -106,7 +106,7 @@
                                 <div id="locationFilter">
                                     <select id="locationSelect" name="location">
                                         <option value="" selected disabled>Location</option>
-                                        {{range .LocationSlice}}
+                                        {{range .AllLocations}}
                                         <option value="{{.}}">{{.}}</option>
                                         {{end}}
                                     </select>
