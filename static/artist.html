@@ -14,13 +14,16 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Heebo:wght@600;800&family=Montserrat:ital,wght@0,200;0,400;0,600;0,700;1,600&display=swap"
         rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 </head>
 
 <body id="artistpage">
     <div class="container">
         <h1 class="artist-header">{{.Name}}</h1>
         <div class="artist-content">
-            <img src="{{.ImageURL}}" alt="{{.Name}}">
+            <img src="{{.ImageURL}}" class="artistimage" alt="{{.Name}}">
 
             <table class="basic-info">
                 <tr>
@@ -57,6 +60,47 @@
                     {{end}}
                 </thead>
             </table>
+            <div id="map"></div>
+            <script> //MAP SCRIPT
+                var map = L.map('map').setView([0, 0], 1); // default view coordinates 0 and 0. Zoom is 1
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { // initialize default map
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                }).addTo(map);
+
+                var locations = [];
+                {{range .Locations}} // add all the locations to javascript array
+                    locations.push("{{.}}");
+                {{end}}
+
+                fetchAndAddMarkers(0);
+
+                function fetchAndAddMarkers(index) {
+                    if (index >= locations.length) {
+                        return; // Exit the loop when all markers have been processed
+                    }
+
+                    var locationName = locations[index];
+                    var apiUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${locationName}&json_callback=processResponse`;
+                    var script = document.createElement('script'); // Create a script element and set its src attribute to the API URL
+                    script.src = apiUrl;
+
+                    window.processResponse = function(data) { // Define a callback function to process the response
+                        if (data.length > 0) {
+                            var latitude = parseFloat(data[0].lat);
+                            var longitude = parseFloat(data[0].lon);
+                            addMarker(locationName, latitude, longitude);
+                        }
+                        document.body.removeChild(script); // Remove the script element after processing the response
+                        fetchAndAddMarkers(index + 1); // Continue with the next location
+                    };
+                    document.body.appendChild(script); // Append the script element to the document to trigger the JSONP request
+                }
+
+                function addMarker(locationName, latitude, longitude) { 
+                    var marker = L.marker([latitude, longitude]).addTo(map); // Add marker
+                    marker.bindPopup(locationName); // Add description
+                }
+            </script>
             <h3><a href="/">Go back</a></h3>
         </div>
     </div>
