@@ -45,4 +45,5 @@ type FilterValues struct {
 	MinFirstAlbumYear int
 	MaxFirstAlbumYear int
 	LocationSlice     []string
+	AllLocations      []string
 }

@@ -53,13 +53,15 @@
                                         <div class="slider">
                                             <i class="black-text">from </i>
                                             <i id="minStartYear">1958</i>
+                                            <input type="range" min="1958" max="2018" value="1958" name="minStart"
+                                                id="minYearSlider">
                                             <input type="range" min="1958" max="2015" value="1958" name="minStart"
                                                 id="minYearSlider" class="min_slider">
                                         </div>
                                         <div class="slider">
                                             <i class="black-text">to </i>
-                                            <i id="maxStartYear">2015</i>
-                                            <input type="range" min="1958" max="2015" value="2015" name="maxStart"
+                                            <i id="maxStartYear">2018</i>
+                                            <input type="range" min="1958" max="2018" value="2018" name="maxStart"
                                                 id="maxYearSlider">
                                         </div>
                                     </div>
@@ -70,13 +72,13 @@
                                         <div class="slider">
                                             <i class="black-text">from </i>
                                             <i id="minAlbumYear">1958</i>
-                                            <input type="range" min="1958" max="2015" value="1958" name="minFirst"
-                                                id="minAlbumSlider" class="min_slider">
+                                            <input type="range" min="1958" max="2018" value="1958" name="minFirst"
+                                                id="minAlbumSlider">
                                         </div>
                                         <div class="slider">
                                             <i class="black-text">to </i>
-                                            <i id="maxAlbumYear">2015</i>
-                                            <input type="range" min="1958" max="2015" value="2015" name="maxFirst"
+                                            <i id="maxAlbumYear">2018</i>
+                                            <input type="range" min="1958" max="2018" value="2018" name="maxFirst"
                                                 id="maxAlbumSlider">
                                         </div>
                                     </div>
@@ -91,10 +93,10 @@
                                         {{- range $nr := $CheckboxNrs -}}
                                         {{- $isChecked := false -}}
                                         {{- range $memberNr := $MembersNumbers -}}
-                                        {{- if eq $nr $memberNr -}}
-                                        {{- $isChecked = true -}}
-                                        {{- break -}}
-                                        {{- end -}}
+                                            {{- if eq $nr $memberNr -}}
+                                                {{- $isChecked = true -}}
+                                                {{- break -}}
+                                            {{- end -}}
                                         {{- end -}}
                                         <input type="checkbox" name="nr_members" value="{{$nr}}" id="{{$nr}}" {{if
                                             $isChecked}}checked{{end}}>
@@ -105,8 +107,8 @@
 
                                 <div id="locationFilter">
                                     <select id="locationSelect" name="location">
-                                        <option value="" selected disabled>LOCATION</option>
-                                        {{range .LocationSlice}}
+                                        <option value="" selected disabled>Location</option>
+                                        {{range .AllLocations}}
                                         <option value="{{.}}">{{.}}</option>
                                         {{end}}
                                     </select>
