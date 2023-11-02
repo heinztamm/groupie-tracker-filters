@@ -54,7 +54,7 @@
                                             <i class="black-text">from </i>
                                             <i id="minStartYear">1958</i>
                                             <input type="range" min="1958" max="2015" value="1958" name="minStart"
-                                                id="minYearSlider">
+                                                id="minYearSlider" class="min_slider">
                                         </div>
                                         <div class="slider">
                                             <i class="black-text">to </i>
@@ -71,7 +71,7 @@
                                             <i class="black-text">from </i>
                                             <i id="minAlbumYear">1958</i>
                                             <input type="range" min="1958" max="2015" value="1958" name="minFirst"
-                                                id="minAlbumSlider">
+                                                id="minAlbumSlider" class="min_slider">
                                         </div>
                                         <div class="slider">
                                             <i class="black-text">to </i>
@@ -105,7 +105,7 @@
 
                                 <div id="locationFilter">
                                     <select id="locationSelect" name="location">
-                                        <option value="" selected disabled>Location</option>
+                                        <option value="" selected disabled>LOCATION</option>
                                         {{range .LocationSlice}}
                                         <option value="{{.}}">{{.}}</option>
                                         {{end}}
