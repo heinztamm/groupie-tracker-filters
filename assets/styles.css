@@ -661,3 +661,14 @@ input[type="range"]:disabled::-moz-range-thumb {
 .collapsible-content p {
     margin-bottom: 0;
 }
+
+/* === Edge specific style changes === */
+
+@supports (-ms-ime-align: auto) {
+    #locationSelect {
+        background-color: grey;
+    }
+    h1 {
+        background-color: black;
+    }
+}
