@@ -216,7 +216,7 @@ table img {
     backdrop-filter: blur(5px);
 }
 
-.artist-content img {
+.artistimage {
     max-width: 200px;
     max-height: 200px;
     border-radius: 10px;
@@ -660,4 +660,22 @@ input[type="range"]:disabled::-moz-range-thumb {
 
 .collapsible-content p {
     margin-bottom: 0;
+}
+
+/* === Edge specific style changes === */
+
+@supports (-ms-ime-align: auto) {
+    #locationSelect {
+        background-color: grey;
+    }
+    h1 {
+        background-color: black;
+    }
+}
+
+#map {
+    width: 400px;
+    height: 400px;
+    border-radius: 10px;
+    margin-top: 10px;
 }
